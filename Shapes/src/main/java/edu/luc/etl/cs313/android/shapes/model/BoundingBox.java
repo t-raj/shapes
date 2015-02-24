@@ -69,4 +69,3 @@ public class BoundingBox implements Visitor<Location> {
         return new Location(x, y, s);
 	}
 }
-//
