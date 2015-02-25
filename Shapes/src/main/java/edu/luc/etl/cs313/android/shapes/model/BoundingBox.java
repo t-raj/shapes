@@ -27,37 +27,35 @@ public class BoundingBox implements Visitor<Location> {
 	public Location onGroup(final Group g) {
 
         final List<? extends Shape> shapes = g.getShapes();
-        return  shapes.
+        return new Location (0,0,g);
 	}
 
 	@Override
 	public Location onLocation(final Location l) {
         final int x = l.getX();
         final int y = l.getY();
-        final Shape shape = l.getShape();
-        return new Location(0,0, new Location(x, y, shape));
+        final Rectangle shape = (Rectangle)l.getShape();
+        return new Location(0,0, new Rectangle(shape.getWidth(), shape.getHeight()));
 	}
 
 	@Override
 	public Location onRectangle(final Rectangle r) {
-		final int width = r.getWidth();
-        final int height = r.getHeight();
-        return new Location(0,0, new Rectangle(width, height));
+        return new Location(0,0,r);
 	}
 
 	@Override
 	public Location onStroke(final Stroke c) {
 
-        final int color = c.getColor();
-        final Shape shape = c.getShape();
-        return new Location(0,0, new Stroke(color, shape));
+        //final int color = c.getColor();
+        final Rectangle shape = (Rectangle)c.getShape();
+        return new Location(0,0, new Rectangle(shape.getWidth(), shape.getHeight()));
 	}
 
 	@Override
 	public Location onOutline(final Outline o) {
 
-        final Shape shape = o.getShape();
-        return new Location(0,0, new Outline(shape));
+        final Rectangle shape = (Rectangle)o.getShape();
+        return new Location(0,0, new Rectangle(shape.getWidth(),shape.getHeight()));
 	}
 
 	@Override

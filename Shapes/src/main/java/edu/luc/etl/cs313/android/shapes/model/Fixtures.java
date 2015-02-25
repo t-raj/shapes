@@ -5,7 +5,7 @@ import android.graphics.Color;
 /**
  * Test fixtures shared across test cases.
  */
-public class Fixtures {
+public class  Fixtures {
 
 	private Fixtures() { /* prevent instantiation! */ }
 
