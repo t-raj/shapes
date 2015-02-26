@@ -4,7 +4,7 @@ package edu.luc.etl.cs313.android.shapes.model;
  * A point, implemented as a location without a shape.
  */
 public class Point extends Location {
-   protected final int radius = 0;
+    protected final int radius = 0;
     final Shape point = new Circle(radius);
 
 	// TODO your job
@@ -17,6 +17,7 @@ public class Point extends Location {
     }
 
     public int getRadius() {
+        final int radius = 0;
         return radius;
     }
 

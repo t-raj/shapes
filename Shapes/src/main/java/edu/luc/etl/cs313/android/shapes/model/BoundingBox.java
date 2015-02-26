@@ -28,6 +28,7 @@ public class BoundingBox implements Visitor<Location> {
 
         final List<? extends Shape> shapes = g.getShapes();
         return new Location (0,0,g);
+
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class BoundingBox implements Visitor<Location> {
         final int x = l.getX();
         final int y = l.getY();
         final Rectangle shape = (Rectangle)l.getShape();
-        return new Location(0,0, new Rectangle(shape.getWidth(), shape.getHeight()));
+        return new Location(0,0, shape);
 	}
 
 	@Override
