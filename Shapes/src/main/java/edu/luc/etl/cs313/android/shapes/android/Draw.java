@@ -34,13 +34,24 @@ public class Draw implements Visitor<Void> {
 
 	@Override
 	public Void onStroke(final Stroke c) {
-        canvas.drawPaint(paint);
+        c.getShape().accept(this);
+
+        int color;
+        color = paint.getColor();
+        paint.setColor(c.getColor());
+        paint.setColor(color);
+
 		return null;
 	}
 
 	@Override
 	public Void onFill(final Fill f) {
-        canvas.drawPaint(paint);
+        f.getShape().accept(this);
+
+        final Style style = paint.getStyle();
+        paint.setStyle(style.FILL_AND_STROKE);
+        paint.setStyle(style);
+        
 		return null;
 	}
 
