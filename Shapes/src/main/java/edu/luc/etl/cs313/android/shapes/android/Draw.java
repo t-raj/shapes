@@ -62,7 +62,7 @@ public class Draw implements Visitor<Void> {
 	public Void onRectangle(final Rectangle r) {
         float x = r.getHeight();
         float y = r.getWidth();
-        canvas.drawLine(0,0,x,y, paint);
+        canvas.drawRect(0,0,x,y, paint);
 		return null;
 	}
 
