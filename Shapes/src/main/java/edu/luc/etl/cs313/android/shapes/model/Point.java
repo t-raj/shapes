@@ -11,14 +11,9 @@ public class Point extends Location {
 	// HINT: use a circle with radius 0 as the shape!
 
 	public Point(final int x, final int y) {
-		super(-1, -1, null);
-		assert x >= 0;
-		assert y >= 0;
-    }
-
-    public int getRadius() {
-        final int radius = 0;
-        return radius;
+        super(x, y, new Circle(0));
+        assert x >= 0;
+        assert y >= 0;
     }
 
     @Override

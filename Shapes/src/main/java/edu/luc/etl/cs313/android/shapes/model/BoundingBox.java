@@ -1,5 +1,6 @@
 package edu.luc.etl.cs313.android.shapes.model;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -20,23 +21,50 @@ public class BoundingBox implements Visitor<Location> {
 	@Override
 	public Location onFill(final Fill f) {
         final Shape shape = f.getShape();
-		return new Location(0,0, new Fill(shape));
+		return shape.accept(this);
 	}
 
 	@Override
 	public Location onGroup(final Group g) {
 
-        final List<? extends Shape> shapes = g.getShapes();
-        return new Location (0,0,g);
+        final Iterator<? extends Shape> list = g.getShapes().iterator();
 
-	}
+        int Xmax = 0;
+        int Ymax = 0;
+
+        int Xmin = Integer.MAX_VALUE;
+        int Ymin = Integer.MAX_VALUE;
+
+        int h;
+        int w;
+
+        while (list.hasNext()) {
+            final Location location = list.next().accept(this);
+
+            int x = location.getX();
+            int y = location.getY();
+            if (location.getShape() instanceof Rectangle) {
+                w = x;
+                h = y;
+                w = w + ((Rectangle) location.getShape()).getWidth();
+                h = h+ ((Rectangle) location.getShape()).getHeight();
+            }
+            if (Xmin >= x) {Xmin = x;}
+            if (Ymin >= y) {Ymin = y;}
+            if (Xmax <= w) {Xmax = ((Rectangle) location.getShape()).getWidth();}
+            if (Ymax <= h) {Ymax = ((Rectangle) location.getShape()).getHeight();}
+        }
+        return new Location(Xmin, Ymin, new Rectangle((Xmax - Ymax),
+                (Xmax - Ymax)));
+    }
+
 
 	@Override
 	public Location onLocation(final Location l) {
-        //final int x = l.getX();
-        //final int y = l.getY();
-        //final Rectangle shape = (Rectangle)l.getShape();
-        return new Location(0,0, l);
+        Location mylocation = l.getShape().accept(this);
+        final int x = l.getX() + mylocation.getX();
+        final int y = l.getY() + mylocation.getY();
+        return new Location(x,y, mylocation.getShape());
 	}
 
 	@Override
@@ -46,23 +74,16 @@ public class BoundingBox implements Visitor<Location> {
 
 	@Override
 	public Location onStroke(final Stroke c) {
-
-        final int color = c.getColor();
-
-        final Rectangle shape = (Rectangle)c.getShape();
-        return new Location(0,0, new Rectangle(shape.getWidth(), shape.getHeight()));
+        return c.getShape().accept(this);
 	}
 
 	@Override
 	public Location onOutline(final Outline o) {
-
-        final Rectangle shape = (Rectangle)o.getShape();
-        return new Location(0,0, new Rectangle(shape.getWidth(),shape.getHeight()));
+        return o.getShape().accept(this);
 	}
 
 	@Override
 	public Location onPolygon(final Polygon s) {
-
         final List<? extends Point> points = s.getPoints();
         int x = points.get(0).getX();
         int y = points.get(0).getY();

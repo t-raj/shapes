@@ -1,5 +1,7 @@
 package edu.luc.etl.cs313.android.shapes.model;
 
+import java.util.Iterator;
+
 /**
  * A visitor to compute the number of basic shapes in a (possibly complex)
  * shape.
@@ -20,7 +22,12 @@ public class Size implements Visitor<Integer> {
 
 	@Override
 	public Integer onGroup(final Group g) {
-        return 2;
+        int size = 0;
+        final Iterator<? extends Shape> shapeList = g.getShapes().iterator();
+        while (shapeList.hasNext()) {
+            size += shapeList.next().accept(this);
+        }
+        return size;
 	}
 
 	@Override
@@ -30,21 +37,21 @@ public class Size implements Visitor<Integer> {
 
 	@Override
 	public Integer onOutline(final Outline o) {
-		return 1;
+		return o.getShape().accept(this);
 	}
 
 	@Override
 	public Integer onFill(final Fill c) {
-		return 1;
+		return c.getShape().accept(this);
 	}
 
 	@Override
 	public Integer onLocation(final Location l) {
-		return 1;
+		return l.getShape().accept(this);
 	}
 
 	@Override
 	public Integer onStroke(final Stroke c) {
-		return 1;
+		return c.getShape().accept(this);
 	}
 }
