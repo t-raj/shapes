@@ -52,17 +52,17 @@ public class Draw implements Visitor<Void> {
 
 	@Override
 	public Void onLocation(final Location l) {
-        float h = canvas.getHeight();
-        float w = canvas.getWidth();
-        canvas.drawPoint(h,w,paint);
+        float x = l.getX();
+        float y = l.getY();
+        canvas.drawRect(0,0,x,y,paint);
 		return null;
 	}
 
 	@Override
 	public Void onRectangle(final Rectangle r) {
-        float h = canvas.getHeight();
-        float w =canvas.getWidth();
-        canvas.drawLine(0,0,h,w, paint);
+        float x = r.getHeight();
+        float y = r.getWidth();
+        canvas.drawLine(0,0,x,y, paint);
 		return null;
 	}
 

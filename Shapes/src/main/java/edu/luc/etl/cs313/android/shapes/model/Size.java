@@ -20,7 +20,6 @@ public class Size implements Visitor<Integer> {
 
 	@Override
 	public Integer onGroup(final Group g) {
-		
         return 2;
 	}
 
